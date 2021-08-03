@@ -5,6 +5,8 @@ const datos = require('./datos');
 //ya se puede hacer llamada al metodo exportado por datos.js
 datos.log("Hola Mundo");
 
+console.log("-------------")
+
 console.log(module);
 /*console.log(global.test);
 
@@ -17,6 +19,9 @@ console.log(__filename);
 //muestra la ruta del archivo ejecutado desde la raiz
 console.log(__dirname);
 
+
+console.log("-------------")
+
 //
 const path = require('path');
 
@@ -27,6 +32,8 @@ console.log(objPath);
 //más información de path en la documentación oficial de node
 console.log(objPath.name);
 
+console.log("-------------")
+
 
 //modulo OS
 const os = require('os');
@@ -36,3 +43,19 @@ var memoriaTotal = os.totalmem();
 
 console.log("Memoria Libre: " + memoriaLibre);
 console.log("Memoria Total: " + memoriaTotal);
+
+console.log("-------------")
+
+//modulo filesystem
+const fs = require('fs');
+
+const archivos = fs.readdirSync("./");
+console.log(archivos);
+
+
+fs.readdir('./', function(err, files){
+    if(err){
+        console.log("Error", err);
+    }
+    else console.log('resultado', files);
+});
