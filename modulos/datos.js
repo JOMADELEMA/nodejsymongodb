@@ -1,0 +1,1 @@
+global.test = "Hola mundo!"
