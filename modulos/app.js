@@ -87,12 +87,25 @@ emitter.emit('mensajeLoger', {id: 1, url: "jomadelema.com"});
 const http = require('http');
 
 //crear objeto servidor
-const server = http.createServer();
+
+const server = http.createServer((req, res)=>{
+    if(req.url === '/'){
+        res.write('Hola Mundo');
+        res.end();
+    }
+
+    if(req.url=== "/api/productos"){
+        res.write(JSON.stringify(["mouse", "teclado", "parlante"]));
+        res.end();
+    }
+});
 
 //connection va con c minuscula
-server.on('connection', (puerto)=>{
-    console.log("nueva conexión");
-})
+// server.on('connection', (puerto)=>{
+//     console.log("nueva conexión");
+// })
+
+
 //para qu eescuche el servidor
 server.listen(3000);
 
