@@ -75,6 +75,7 @@ const emitter = new EventEmitter();
 // });
 
 //mismo codigo pero funcion de flecha
+
 emitter.on('mensajeLoger', (arg) => {
     console.log('listener llamado ...', arg);
 });
@@ -82,5 +83,18 @@ emitter.on('mensajeLoger', (arg) => {
 //registrar el evento 
 emitter.emit('mensajeLoger', {id: 1, url: "jomadelema.com"});
 
-
 //modulo HTTP
+const http = require('http');
+
+//crear objeto servidor
+const server = http.createServer();
+
+//connection va con c minuscula
+server.on('connection', (puerto)=>{
+    console.log("nueva conexión");
+})
+//para qu eescuche el servidor
+server.listen(3000);
+
+console.log("servidor escuchando en puerto 3000");
+
