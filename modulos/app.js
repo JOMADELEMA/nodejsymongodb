@@ -10,3 +10,9 @@ console.log(module);
 
 //mala practica usar variables globales
 console.log(module);*/
+
+//muestra el nombre del archivo ejecutado desde la raiz
+console.log(__filename);
+
+//muestra la ruta del archivo ejecutado desde la raiz
+console.log(__dirname);
