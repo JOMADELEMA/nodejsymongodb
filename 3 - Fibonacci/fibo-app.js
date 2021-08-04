@@ -1,6 +1,8 @@
 //serie fibonacci
 //1 1 2 3 5 8 13 21 34 55 89 ...
 
+const fs = require('fs');
+
 let fibo1 = 1;
 let fibo2 = 1;
 
@@ -15,3 +17,7 @@ for(let i=2; i<=7; i++){
 //instalar nodemon con: npm install -g nodemon
 
 //a continuación se generará código para guardar el resultado en un archivo
+fs.writeFile('fibonacci.txt', 'hola mundo', (err)=>{
+    if (err) throw err;
+    console.log('Archivo creado con exito!');
+});
