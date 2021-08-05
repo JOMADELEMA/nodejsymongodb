@@ -18,7 +18,7 @@ for(let i=2; i<=7; i++){
 //instalar nodemon con: npm install -g nodemon
 
 //a continuación se generará código para guardar el resultado en un archivo
-fs.writeFile('fibonacci.txt', 'hola mundo', (err)=>{
+fs.writeFile('fibonacci.txt', serie, (err)=>{
     if (err) throw err;
     console.log('Archivo creado con exito!');
 });
