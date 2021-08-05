@@ -11,5 +11,8 @@
   "dependencies": {
     "colors": "^1.4.0",
     "mongoose": "^5.13.5"
+  },
+  "devDependencies": {
+    "jshint": "^2.13.0"
   }
 }
