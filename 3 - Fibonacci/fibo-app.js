@@ -5,11 +5,12 @@ const fs = require('fs');
 
 let fibo1 = 1;
 let fibo2 = 1;
+let serie = '';
 
-console.log(fibo1);
+serie += fibo1 +"\t";
 
 for(let i=2; i<=7; i++){
-    console.log(fibo2);
+    serie += fibo2 + "\t";
     fibo2 = fibo1 + fibo2;
     fibo1 = fibo2 - fibo1;
 };
