@@ -1,11 +1,20 @@
 const express = require("express");
 const app = express();
 const Joi = require("@hapi/joi");
+const logger = require("./logger");
 
 //se importa una funcion json
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 const port = process.env.PORT || 3000;
+
+app.use(logger);
+
+app.use(function(req, res, next){
+  console.log("Autenticando");
+  next();
+});
 
 const usuarios = [
   { id: 1, nombre: "Jorge" },
@@ -152,6 +161,37 @@ si son varios es /:param1/:param2 ....
 */
 
 /*manejo de solicitudes HTTP GET
+
+
+
+*/
+
+
+/*EJEMPLO DE FUNCIONES MIDDLEWARE
+
+app.use(functtion(req, res, next){
+  console.log("logging....");
+  next();
+})
+
+app.use(function(req, res, next){
+  console.log("Autenticando....");
+  next();
+})
+
+.
+.
+.
+
+
+usualmente se utilizan en otro archivo.
+
+*/
+
+
+//EXPRESS URLENCODED
+/*
+permite trabajar query strings
 
 
 
