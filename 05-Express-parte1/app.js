@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/usuarios", (req, res) => {
-  res.send(["grover", "luis", "ana"]);
+  res.send(usuarios);
 });
 
 app.get("/api/usuarios/:year/:mes", (req, res) => {
@@ -63,6 +63,30 @@ app.post('/api/usuarios', (req, res)=>{
     const mensaje = error.details[0].message
     res.status(400).send(mensaje);
   }
+});
+
+ app.put('/api/usuarios/:id', (req, res)=>{
+  //encontrar si existe el objeto usuario
+  let usuario = usuarios.find(u => u.id === parseInt(req.params.id));
+
+    if (!usuario){
+        res.status(404).send("El usuario no fue encontrado");
+    }
+
+    const schema = Joi.object({
+      nombre: Joi.string().min(3).required(),
+    }); 
+  
+    const {error, value} = schema.validate({nombre: req.body.nombre});
+    
+    if(error) {
+      const mensaje = error.details[0].message;
+      res.status(400).send(mensaje);
+      return;
+    } 
+    usuario.nombre = value.nombre;
+    res.send(usuario);
+  });
 
   // if (!req.body.nombre  || req.body.nombre.length <= 2){
   //   //bad request
@@ -75,7 +99,7 @@ app.post('/api/usuarios', (req, res)=>{
   // };
   // usuarios.push(usuario);
   // res.send(usuario);
-});
+
 
 app.listen(3000, () => {
   console.log("escuchando en el puerto " + port + " ...");
