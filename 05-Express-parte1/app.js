@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const Joi = require("@hapi/joi");
 
-
 //se importa una funcion json
 app.use(express.json());
 
@@ -26,16 +25,15 @@ app.get("/api/usuarios/:year/:mes", (req, res) => {
   res.send(req.params);
 });
 
-app.get("/api/usuarios/:id", (req, res)=>{
-    let usuario = usuarios.find(u => u.id === parseInt(req.params.id));
+app.get("/api/usuarios/:id", (req, res) => {
+  let usuario = existeUsuario(req.params.id);
 
-    if (!usuario){
-        res.status(404);
-        res.send("El usuario no fue encontrado");
-    }
-    else {
-        res.send("El usuario es: "+ usuario.nombre);
-    }
+  if (!usuario) {
+    res.status(404);
+    res.send("El usuario no fue encontrado");
+  } else {
+    res.send("El usuario es: " + usuario.nombre);
+  }
 });
 
 /* para solicitudes tipo query Genero=M
@@ -43,63 +41,70 @@ app.get("/api/usuarios/:year/:mes",(req, res)=>{
     res.send(req.query);
 });*/
 
-app.post('/api/usuarios', (req, res)=>{
+app.post("/api/usuarios", (req, res) => {
+  // const schema = Joi.object({
+  //   nombre: Joi.string().min(3).required(),
+  // });
 
-  const schema = Joi.object({
-    nombre: Joi.string().min(3).required(),
-  }); 
+  const { error, value } = validarUsuario(req.body.nombre);
 
-  const {error, value} = schema.validate({nombre: req.body.nombre});
-  
-  if(!error) {
-  const usuario = {
-    id: usuarios.length + 1,
-    nombre: value.nombre
-  };
-  usuarios.push(usuario);
-  res.send(usuario);
-  } 
-  else {
-    const mensaje = error.details[0].message
+  if (!error) {
+    const usuario = {
+      id: usuarios.length + 1,
+      nombre: value.nombre,
+    };
+    usuarios.push(usuario);
+    res.send(usuario);
+  } else {
+    const mensaje = error.details[0].message;
     res.status(400).send(mensaje);
   }
 });
 
- app.put('/api/usuarios/:id', (req, res)=>{
+app.put("/api/usuarios/:id", (req, res) => {
   //encontrar si existe el objeto usuario
-  let usuario = usuarios.find(u => u.id === parseInt(req.params.id));
+  //let usuario = usuarios.find(u => u.id === parseInt(req.params.id));
 
-    if (!usuario){
-        res.status(404).send("El usuario no fue encontrado");
-    }
+  let usuario = existeUsuario(req.params.id);
+  if (!usuario) {
+    res.status(404).send("El usuario no fue encontrado");
+    return;
+  }
 
-    const schema = Joi.object({
-      nombre: Joi.string().min(3).required(),
-    }); 
-  
-    const {error, value} = schema.validate({nombre: req.body.nombre});
-    
-    if(error) {
-      const mensaje = error.details[0].message;
-      res.status(400).send(mensaje);
-      return;
-    } 
-    usuario.nombre = value.nombre;
-    res.send(usuario);
+  const { error, value } = validarUsuario(req.body.nombre);
+
+  if (error) {
+    const mensaje = error.details[0].message;
+    res.status(400).send(mensaje);
+    return;
+  }
+  usuario.nombre = value.nombre;
+  res.send(usuario);
+});
+
+// if (!req.body.nombre  || req.body.nombre.length <= 2){
+//   //bad request
+//   res.status(400).send("debe ingresar un nombre");
+//   return;
+// }
+// const usuario = {
+//   id: usuarios.length + 1,
+//   nombre: req.body.nombre
+// };
+// usuarios.push(usuario);
+// res.send(usuario);
+
+function existeUsuario(id) {
+  return usuarios.find((u) => u.id === parseInt(id));
+}
+
+function validarUsuario(nom) {
+  const schema = Joi.object({
+    nombre: Joi.string().min(3).required(),
   });
 
-  // if (!req.body.nombre  || req.body.nombre.length <= 2){
-  //   //bad request
-  //   res.status(400).send("debe ingresar un nombre");
-  //   return;
-  // }
-  // const usuario = {
-  //   id: usuarios.length + 1,
-  //   nombre: req.body.nombre
-  // };
-  // usuarios.push(usuario);
-  // res.send(usuario);
-
+  return schema.validate({ nombre: nom });
+}
 
 app.listen(3000, () => {
   console.log("escuchando en el puerto " + port + " ...");
