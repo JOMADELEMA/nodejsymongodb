@@ -82,6 +82,20 @@ app.put("/api/usuarios/:id", (req, res) => {
   res.send(usuario);
 });
 
+app.delete("/api/usuarios/:id", (req, res)=>{
+  let usuario = existeUsuario(req.params.id);
+  if (!usuario) {
+    res.status(404).send("El usuario no fue encontrado");
+    return;
+  };
+
+  const index = usuarios.indexOf(usuario);
+
+  usuarios.splice(index, 1);
+  res.send(usuarios);
+
+});
+
 // if (!req.body.nombre  || req.body.nombre.length <= 2){
 //   //bad request
 //   res.status(400).send("debe ingresar un nombre");
