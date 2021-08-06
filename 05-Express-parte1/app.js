@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const Joi = require("@hapi/joi");
-const logger = require("./logger");
+//const logger = require("./logger");
+const morgan = require("morgan");
 
 //se importa una funcion json
 app.use(express.json());
@@ -10,12 +11,17 @@ app.use(express.static("public"));
 
 const port = process.env.PORT || 3000;
 
-app.use(logger);
+//uso de middleware de terceros - Morgan
+app.use(morgan('tiny'));
+console.log("Morgan habilitado");
 
-app.use(function(req, res, next){
-  console.log("Autenticando");
-  next();
-});
+
+//app.use(logger);
+
+// app.use(function(req, res, next){
+//   console.log("Autenticando");
+//   next();
+// });
 
 const usuarios = [
   { id: 1, nombre: "Jorge" },
