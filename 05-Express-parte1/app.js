@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const Joi = require("@hapi/joi");
+
 
 //se importa una funcion json
 app.use(express.json());
@@ -42,17 +44,37 @@ app.get("/api/usuarios/:year/:mes",(req, res)=>{
 });*/
 
 app.post('/api/usuarios', (req, res)=>{
-  if (!req.body.nombre  || req.body.nombre.length <= 2){
-    //bad request
-    res.status(400).send("debe ingresar un nombre");
-    return;
-  }
+
+  const schema = Joi.object({
+    nombre: Joi.string().min(3).required(),
+  }); 
+
+  const {error, value} = schema.validate({nombre: req.body.nombre});
+  
+  if(!error) {
   const usuario = {
     id: usuarios.length + 1,
-    nombre: req.body.nombre
+    nombre: value.nombre
   };
   usuarios.push(usuario);
   res.send(usuario);
+  } 
+  else {
+    const mensaje = error.details[0].message
+    res.status(400).send(mensaje);
+  }
+
+  // if (!req.body.nombre  || req.body.nombre.length <= 2){
+  //   //bad request
+  //   res.status(400).send("debe ingresar un nombre");
+  //   return;
+  // }
+  // const usuario = {
+  //   id: usuarios.length + 1,
+  //   nombre: req.body.nombre
+  // };
+  // usuarios.push(usuario);
+  // res.send(usuario);
 });
 
 app.listen(3000, () => {
