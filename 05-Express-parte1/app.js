@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+//se importa una funcion json
+app.use(express.json());
+
 const port = process.env.PORT || 3000;
 
 const usuarios = [
@@ -38,7 +41,21 @@ app.get("/api/usuarios/:year/:mes",(req, res)=>{
     res.send(req.query);
 });*/
 
-app.listen(port, () => {
+app.post('/api/usuarios', (req, res)=>{
+  if (!req.body.nombre  || req.body.nombre.length <= 2){
+    //bad request
+    res.status(400).send("debe ingresar un nombre");
+    return;
+  }
+  const usuario = {
+    id: usuarios.length + 1,
+    nombre: req.body.nombre
+  };
+  usuarios.push(usuario);
+  res.send(usuario);
+});
+
+app.listen(3000, () => {
   console.log("escuchando en el puerto " + port + " ...");
 });
 
