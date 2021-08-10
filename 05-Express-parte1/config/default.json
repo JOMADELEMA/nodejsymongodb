@@ -1,0 +1,6 @@
+{
+    "nombre" : "Api Restful Express",
+    "configDB": {
+        "host": "localhost"
+    }
+}

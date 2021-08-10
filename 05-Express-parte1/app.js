@@ -1,8 +1,10 @@
 const express = require("express");
+const config = require("config");
 const app = express();
 const Joi = require("@hapi/joi");
 //const logger = require("./logger");
 const morgan = require("morgan");
+
 
 //se importa una funcion json
 app.use(express.json());
@@ -10,6 +12,10 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
 const port = process.env.PORT || 3000;
+
+//configuración de entornos
+console.log('Aplicación: ' + config.get('nombre'));
+console.log('BD Server: ' + config.get("configDB.host"));
 
 //uso de middleware de terceros - Morgan
 app.use(morgan('tiny'));
@@ -136,7 +142,7 @@ function validarUsuario(nom) {
   return schema.validate({ nombre: nom });
 }
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("escuchando en el puerto " + port + " ...");
 });
 

@@ -1,0 +1,6 @@
+{
+    "nombre" : "Api Restful Express - Desarrollo",
+    "configDB": {
+        "host": "desarrollo-db-server"
+    }
+}
