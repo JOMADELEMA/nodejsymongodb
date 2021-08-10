@@ -11,7 +11,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-const port = process.env.PORT || 3000;
+
+
+let port = process.env.PORT || 3000;
+console.log(process.env);
 
 //configuración de entornos
 console.log('Aplicación: ' + config.get('nombre'));
