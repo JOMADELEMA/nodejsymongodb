@@ -21,8 +21,10 @@ console.log('Aplicación: ' + config.get('nombre'));
 console.log('BD Server: ' + config.get("configDB.host"));
 
 //uso de middleware de terceros - Morgan
-app.use(morgan('tiny'));
-console.log("Morgan habilitado");
+if(app.get('env')=== 'development'){
+  app.use(morgan('tiny'));
+  console.log("Morgan habilitado");
+}
 
 
 //app.use(logger);
