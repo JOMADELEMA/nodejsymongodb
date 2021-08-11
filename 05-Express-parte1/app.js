@@ -1,5 +1,5 @@
-const inicioDebug = require('debug')('app:inicio');
-const dbDebug = require('debug')('app:database');
+const debug = require('debug')('app:inicio');
+//const dbDebug = require('debug')('app:database');
 require('dotenv').config();
 
 const express = require("express");
@@ -25,9 +25,10 @@ console.log('BD Server: ' + config.get('configDB.host'));
 if(app.get('env') === 'development'){
   app.use(morgan('tiny'));
   //console.log("Morgan habilitado");
-  inicioDebug("Morgan está habilitado.");
+  debug("Morgan está habilitado.");
 }
 
+debug("Conectando con la base de datos...");
 //console.log(process.env);
 
 
