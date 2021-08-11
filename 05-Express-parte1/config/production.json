@@ -1,6 +1,6 @@
 {
     "nombre" : "Api Restful Express - Producción",
-    "configDB":{
+    "configDB": {
         "host": "prod-db-server"
     }
 }

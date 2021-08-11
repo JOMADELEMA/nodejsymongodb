@@ -1,3 +1,7 @@
+const inicioDebug = require('debug')('app:inicio');
+const dbDebug = require('debug')('app:database');
+require('dotenv').config();
+
 const express = require("express");
 const config = require("config");
 const app = express();
@@ -11,20 +15,20 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-
-
 let port = process.env.PORT || 3000;
-console.log(process.env);
 
 //configuración de entornos
 console.log('Aplicación: ' + config.get('nombre'));
-console.log('BD Server: ' + config.get("configDB.host"));
+console.log('BD Server: ' + config.get('configDB.host'));
 
 //uso de middleware de terceros - Morgan
-if(app.get('env')=== 'development'){
+if(app.get('env') === 'development'){
   app.use(morgan('tiny'));
-  console.log("Morgan habilitado");
+  //console.log("Morgan habilitado");
+  inicioDebug("Morgan está habilitado.");
 }
+
+//console.log(process.env);
 
 
 //app.use(logger);
