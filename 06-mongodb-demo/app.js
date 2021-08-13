@@ -69,7 +69,27 @@ async function listarCursosCondicion2(){
     console.log(cursos);
 };
 
+async function listarCursosCondicion3(){
+
+    //or y and
+    const cursos = await Curso
+    .find() 
+    //.or([{autor: "JOMA"}, {publicado: true}]) //ejemplo de or
+    //.and.or([{autor: "JOMA"}, {publicado: true}]) //ejemplo de and
+
+    //expreciones regulares
+    //.find({autor: /^JO/}) //para buscar con inicio JO
+    //.find({autor: /MA$/}) //para buscar con final MA.
+    .find({autor: /.^*ro.*/})//cuando un campo tiene el contenido especifico
+    .limit(1) //limite de registros devueltos.
+    .sort({autor: 1}) //1 orden ascendente -1 orden desc
+    .select({nombre:1, etiquetas:1}); //devuelbe solo los datos solicitados del registro
+    console.log(cursos);
+};
+
+
 
 listarCursos();  //listar todos los cursos
 listarCursosCondicion(); //listar cursos pero con condiciones de busqueda
-listarCursosCondicion2
+listarCursosCondicion2();
+listarCursosCondicion3();
