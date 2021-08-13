@@ -80,7 +80,21 @@ async function listarCursosCondicion3(){
     //expreciones regulares
     //.find({autor: /^JO/}) //para buscar con inicio JO
     //.find({autor: /MA$/}) //para buscar con final MA.
-    .find({autor: /.^*ro.*/})//cuando un campo tiene el contenido especifico
+    .find({autor: /.^*O.*/})//cuando un campo tiene el contenido especifico
+    .limit(1) //limite de registros devueltos.
+    .sort({autor: 1}) //1 orden ascendente -1 orden desc
+    .select({nombre:1, etiquetas:1}); //devuelbe solo los datos solicitados del registro
+    console.log(cursos);
+};
+
+//Paginacion
+const numeroPagina = 2;
+const tamanoPagina = 10;
+
+async function listarCursosPaginado(){
+    const cursos = await Curso
+    .find({autor: "JOMA"}) 
+    .skip((numeroPagina-1) * tamanoPagina)
     .limit(1) //limite de registros devueltos.
     .sort({autor: 1}) //1 orden ascendente -1 orden desc
     .select({nombre:1, etiquetas:1}); //devuelbe solo los datos solicitados del registro
@@ -89,7 +103,47 @@ async function listarCursosCondicion3(){
 
 
 
-listarCursos();  //listar todos los cursos
-listarCursosCondicion(); //listar cursos pero con condiciones de busqueda
-listarCursosCondicion2();
-listarCursosCondicion3();
+//listarCursos();  //listar todos los cursos
+// listarCursosCondicion(); //listar cursos pero con condiciones de busqueda
+// listarCursosCondicion2();
+// listarCursosCondicion3();
+//listarCursosPaginado();
+
+// async function actualizarCurso(id){
+//     const curso = await Curso.findById(id);
+//     if(!curso) {
+//         console.log("el curso no existe");
+//     }
+//     curso.publicado = false;
+//     curso.autor = "JOMADELEMA"
+
+//     // curso.set({
+//     //     publicado: false, 
+//     //     autor: "JOMADELEMA";
+//     // })
+
+//     const resultado = await curso.save();
+//     console.log(resultado);
+// };
+
+// async function actualizarCurso(id){
+//     const resultado = await Curso.update({_id: id},{
+//         $set: {
+//             autor: "JOMA", 
+//             publicado: true
+//         }
+//     });
+//     console.log(resultado);
+// };
+
+async function actualizarCurso(id){
+    const resultado = await Curso.findByIdAndUpdate(id,{
+        $set: {
+            autor: "JOMA", 
+            publicado: false
+        }
+    }, {new: true});
+    console.log(resultado);
+};
+
+actualizarCurso("6115e7c11867a62f2072c7f0");
