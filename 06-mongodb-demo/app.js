@@ -146,4 +146,12 @@ async function actualizarCurso(id){
     console.log(resultado);
 };
 
-actualizarCurso("6115e7c11867a62f2072c7f0");
+//actualizarCurso("6115e7c11867a62f2072c7f0");
+
+async function eliminarDocumento(id){
+    const result = await Curso.deleteOne({_id: id});
+    //const result = await Curso.findOneAndDelete({_id: id});
+    console.log(result);
+};
+
+eliminarDocumento("6115e7c11867a62f2072c7f0");
