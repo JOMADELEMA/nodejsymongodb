@@ -24,9 +24,9 @@ const Curso = mongoose.model("Curso", cursoSchema);
 
 async function crearCurso() {
     const curso = new Curso({
-        nombre: "Node JS desde cero",
+        nombre: "Javascript",
         autor: "JOMA",
-        etiquetas: ["desarrollo web", "back end"],
+        etiquetas: ["desarrollo web", "front end"],
         publicado: true
     });
     
@@ -34,7 +34,7 @@ async function crearCurso() {
     console.log(resultado);
 };
 
-//crearCurso();
+crearCurso();
 
 async function listarCursos(){
     const cursos = await Curso.find();
@@ -50,6 +50,26 @@ async function listarCursosCondicion(){
     console.log(cursos);
 };
 
+async function listarCursosCondicion2(){
+    //eq (equal, igual)
+    //ne (not equal)
+    //gt (greater than)
+    //get (greater than or equal)
+    //lt (less than)
+    //lte (lest than or equal to=
+    //in (si hay valores dentro de la consulta)
+    //nin (not in)
+    const cursos = await Curso
+    .find({autor: "JOMA"}) 
+    //.find({precio: {$gte:10, $lte:30}}) para encontrar rangos de precio entre 10 y 30
+    //.find({precio: {$in: [10, 15, 25]}}) para encontrar precios en especifico pero varias opciones
+    .limit(1) //limite de registros devueltos.
+    .sort({autor: 1}) //1 orden ascendente -1 orden desc
+    .select({nombre:1, etiquetas:1}); //devuelbe solo los datos solicitados del registro
+    console.log(cursos);
+};
 
-//listarCursos();
-listarCursosCondicion();
+
+listarCursos();  //listar todos los cursos
+listarCursosCondicion(); //listar cursos pero con condiciones de busqueda
+listarCursosCondicion2
