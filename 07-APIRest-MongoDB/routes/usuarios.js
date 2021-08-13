@@ -1,10 +1,19 @@
 const express = require('express');
 const ruta = express.Router();
 
-const Usuario = require('../models/usuario_model');
+let Usuario = require('../models/usuario_model');
 
 ruta.get('/',(req, res)=>{
-    res.json("listo el Get de Usuarios");
+    let resultado = listarUsuariosActivos();
+    resultado
+    .then(usuarios => {
+        res.json(usuarios);
+    })
+    .catch(err => {
+        res.status(400).json({
+            error: err
+        })
+    })
 });
 
 ruta.post('/', (req, res)=>{
@@ -38,6 +47,20 @@ ruta.put('/:email', (req, res) => {
     })
 });
 
+ruta.delete('/:email', (req, res)=>{
+    let resultado =  desactivarUsuario(req.params.email);
+    resultado.then(valor =>{
+        res.json({
+            valor: valor
+        });
+    })
+    .catch(err => {
+        res.status(400).json({
+            error: err
+        });
+    })
+});
+
 async function crearUsuario(body){
     let usuario = new Usuario({
         email : body.email,
@@ -48,13 +71,29 @@ async function crearUsuario(body){
     return await usuario.save();
 };
 
+async function listarUsuariosActivos(){
+    let usuarios = await Usuario.find({"estado": true});
+    return usuarios;
+}
+
 async function actualizarUsuario(email, body){
-    let usuario = await Usuario.findOneAndUpdate(email, {
+    let usuario = await Usuario.findOneAndUpdate({email}, {
         $set: {
-            nombre: body.nombre,
-            password: body.password
+            "nombre": body.nombre,
+            "password": body.password
         }
     }, {new: true});
+    return usuario;
+}
+
+async function desactivarUsuario(email){
+    console.log(email);
+    let usuario = await Usuario.findOneAndUpdate({email}, {
+        $set: {
+            "estado": false
+        }
+    }, {new: true});
+    console.log(Usuario);
     return usuario;
 }
 
