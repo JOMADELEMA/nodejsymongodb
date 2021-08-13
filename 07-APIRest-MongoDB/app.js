@@ -18,3 +18,16 @@ const port = process.env.PORT || 3000;
 app.listen(3000, ()=>{
     console.log("Api RestFul. Ejecutandose...");
 });
+
+
+///para crear indices en mongodb
+//en shell
+/*
+db.usuarios.createIndex({"email":1});
+
+db //selecciona la base de datos actual
+usuarios //la colección a crear indice
+createIndex (ps crea el indice duhh!)
+parametros email es el que se creara como indice y el :1 que será en orden ascendente
+-1 es descendente
+*/
