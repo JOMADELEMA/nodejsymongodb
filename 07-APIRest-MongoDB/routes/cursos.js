@@ -4,7 +4,13 @@ const usuario_model = require('../models/usuario_model');
 const ruta = express.Router();
 
 ruta.get('/', (req, res)=>{
-    res.json("listo el get");
+    let resultado = listarCursosActivos();
+    resultado.then((cursos) => {
+        res.json(cursos);
+    })
+    .catch(err => {
+        res.json(err);
+    })
 });
 
 ruta.post('/', (req,res)=>{
@@ -30,5 +36,55 @@ async function crearCurso(body){
     });
     return await curso.save();
 }
+
+ruta.put('/:id', (req, res)=>{
+    console.log(req.params.id);
+    let resultado = actualizarCurso(req.params.id, req.body);
+    console.log(req.params.id);
+    resultado.then(curso => {
+        res.json(curso)
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    });
+});
+
+async function actualizarCurso(id, body){
+    let curso = await Curso.findByIdAndUpdate(id,{
+        $set: {
+            titulo: body.titulo,
+            descripcion: body.descripcion
+        }
+    }, {new: true});
+    return curso;
+}
+
+ruta.delete("/:id", (req, res)=>{
+    let curso = desactivarCurso(req.params.id);
+    curso.then(curso => {
+        res.json(curso)
+    })
+    .catch(err => {
+        res.json(err)
+    });
+});
+
+async function desactivarCurso(id) {
+    let curso = await Curso.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          estado: false,
+        },
+      },
+      { new: true }
+    );
+    return curso;
+  }
+
+  async function listarCursosActivos() {
+    let cursos = await Curso.find({ estado: true });
+    return cursos;
+  }
 
 module.exports = ruta;
