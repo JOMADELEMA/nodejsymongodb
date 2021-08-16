@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require('bcrypt');
 const ruta = express.Router();
 const Joi = require("joi");
 
@@ -31,6 +32,18 @@ ruta.get("/", (req, res) => {
 
 ruta.post("/", (req, res) => {
   let body = req.body;
+
+  Usuario.findOne({email: body.email}, (err, user)=>{
+    if(err){
+      return res.status(400).json({error: "server Error"});
+    }
+    if (user){
+      return res.status(400).json({
+        mensaje: "el usuario ya existe"
+      })
+    }
+  })
+
   const { error, value } = schema.validate(
     { nombre: body.nombre },
     { email: body.email }
@@ -41,7 +54,8 @@ ruta.post("/", (req, res) => {
     resultado
       .then((user) => {
         res.json({
-          valor: user,
+          nombre:user.nombre,
+          email: user.email
         });
       })
       .catch((err) => {
@@ -63,7 +77,8 @@ ruta.put("/:email", (req, res) => {
     resultado
       .then((valor) => {
         res.json({
-          valor: valor,
+          nombre:valor.nombre,
+          email:valor.email
         });
       })
       .catch((err) => {
@@ -83,7 +98,8 @@ ruta.delete("/:email", (req, res) => {
   resultado
     .then((valor) => {
       res.json({
-        valor: valor,
+        nombre:valor.nombre,
+        email:valor.email
       });
     })
     .catch((err) => {
@@ -97,14 +113,15 @@ async function crearUsuario(body) {
   let usuario = new Usuario({
     email: body.email,
     nombre: body.nombre,
-    password: body.password,
+    password: bcrypt.hashSync(body.password, 10),
   });
 
   return await usuario.save();
 }
 
 async function listarUsuariosActivos() {
-  let usuarios = await Usuario.find({ estado: true });
+  let usuarios = await Usuario.find({ estado: true })
+  .select({nombre:1, email:1});
   return usuarios;
 }
 
