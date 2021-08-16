@@ -123,7 +123,6 @@ async function actualizarUsuario(email, body) {
 }
 
 async function desactivarUsuario(email) {
-  console.log(email);
   let usuario = await Usuario.findOneAndUpdate(
     { email },
     {
@@ -133,7 +132,6 @@ async function desactivarUsuario(email) {
     },
     { new: true }
   );
-  console.log(Usuario);
   return usuario;
 }
 
