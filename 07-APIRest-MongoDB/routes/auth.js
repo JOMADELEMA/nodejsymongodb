@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const ruta = express.Router();
 let Usuario = require("../models/usuario_model");
-const config = require('config');
+require('dotenv').config();
+
 
 
 ruta.post('/', (req, res)=> {

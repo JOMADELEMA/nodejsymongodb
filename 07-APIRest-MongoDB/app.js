@@ -4,10 +4,9 @@ const auth = require("./routes/auth");
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 
-console.log(dotenv.HOST);
 mongoose.connect(process.env.HOST,  {useUnifiedTopology: true, useNewUrlParser: true})
     .then(()=> console.log("conectado a MongoDB"))
     .catch(err => console.log("no se pudo conectar con MongoDB..."))
@@ -19,6 +18,10 @@ app.use('/api/usuarios', usuarios)
 app.use('/api/cursos', cursos);
 app.use('/api/auth', auth);
 
+// console.log(process.env.NODE_ENV);
+// console.log(process.env.PORT);
+// console.log(process.env.SEED);
+// console.log(process.env.expiration);
 
 const port = process.env.PORT || 3000;
 app.listen(3000, ()=>{
