@@ -1,0 +1,17 @@
+{
+    "env" : {
+        "PORT": 5000,
+        "NODE_ENV" : "development",
+        "DEBUG": "app:*",
+        "configDb": {
+            "HOST": "mongodb://localhost:27017/demo"
+        },
+        "configToken": {
+          "SEED": "secret",
+          "expiration": "24h"
+        }
+    },
+    "configDb": {
+        "HOST":"mongodb://localhost:27017/demo"
+    }
+}

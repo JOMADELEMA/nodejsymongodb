@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require('bcrypt');
 const ruta = express.Router();
 const Joi = require("joi");
+let Usuario = require("../models/usuario_model");
 
 const schema = Joi.object({
   nombre: Joi.string().min(3).max(10).required(),
@@ -15,7 +16,7 @@ const schema = Joi.object({
   }),
 });
 
-let Usuario = require("../models/usuario_model");
+
 
 ruta.get("/", (req, res) => {
   let resultado = listarUsuariosActivos();

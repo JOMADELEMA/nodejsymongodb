@@ -1,0 +1,13 @@
+{
+    "env": {
+      "nombre": " Api Rest express - Usuarios y cursos",
+      "NODE_ENV": "development",
+      "configDb": {
+          "HOST": "mongodb://localhost:27017/demo"
+      },
+      "configToken": {
+        "SEED": "secret",
+        "expiration": "24h"
+      }
+    }
+  }

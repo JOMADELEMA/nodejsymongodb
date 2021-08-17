@@ -1,0 +1,10 @@
+{
+    "env": {
+      "nombre": " Api Rest express - Usuarios y cursos",
+      "configDb": {},
+      "configToken": {
+        "SEED": "secret",
+        "expiration": "24h"
+      }
+    }
+  }
