@@ -2,8 +2,9 @@ const express = require('express');
 const Curso = require('../models/curso_model');
 const usuario_model = require('../models/usuario_model');
 const ruta = express.Router();
+const verificarToken = require('../middlewares/auth');
 
-ruta.get('/', (req, res)=>{
+ruta.get('/', verificarToken, (req, res)=>{
     let resultado = listarCursosActivos();
     resultado.then((cursos) => {
         res.json(cursos);
@@ -13,7 +14,7 @@ ruta.get('/', (req, res)=>{
     })
 });
 
-ruta.post('/', (req,res)=>{
+ruta.post('/', verificarToken, (req,res)=>{
     let resultado = crearCurso(req.body);
 
     resultado.then(curso =>{
@@ -37,7 +38,7 @@ async function crearCurso(body){
     return await curso.save();
 }
 
-ruta.put('/:id', (req, res)=>{
+ruta.put('/:id', verificarToken, (req, res)=>{
     console.log(req.params.id);
     let resultado = actualizarCurso(req.params.id, req.body);
     console.log(req.params.id);
@@ -59,7 +60,7 @@ async function actualizarCurso(id, body){
     return curso;
 }
 
-ruta.delete("/:id", (req, res)=>{
+ruta.delete("/:id", verificarToken, (req, res)=>{
     let curso = desactivarCurso(req.params.id);
     curso.then(curso => {
         res.json(curso)

@@ -1,8 +1,11 @@
 const express = require("express");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const ruta = express.Router();
 const Joi = require("joi");
 let Usuario = require("../models/usuario_model");
+require('dotenv').config();
+const verificarToken = require('../middlewares/auth');
 
 const schema = Joi.object({
   nombre: Joi.string().min(3).max(10).required(),
@@ -18,7 +21,7 @@ const schema = Joi.object({
 
 
 
-ruta.get("/", (req, res) => {
+ruta.get("/", verificarToken, (req, res) => {
   let resultado = listarUsuariosActivos();
   resultado
     .then((usuarios) => {
@@ -71,7 +74,7 @@ ruta.post("/", (req, res) => {
   }
 });
 
-ruta.put("/:email", (req, res) => {
+ruta.put("/:email", verificarToken, (req, res) => {
   let resultado = actualizarUsuario(req.params.email, req.body);
   const { error, value } = schema.validate({ nombre: req.body.nombre });
   if (!error) {
@@ -94,7 +97,7 @@ ruta.put("/:email", (req, res) => {
   }
 });
 
-ruta.delete("/:email", (req, res) => {
+ruta.delete("/:email",  verificarToken,(req, res) => {
   let resultado = desactivarUsuario(req.params.email);
   resultado
     .then((valor) => {
