@@ -5,6 +5,11 @@ const ruta = express.Router();
 const verificarToken = require('../middlewares/auth');
 
 ruta.get('/', verificarToken, (req, res)=>{
+
+    /*res.json({
+        usuario: req.usuario
+    })*/
+
     let resultado = listarCursosActivos();
     resultado.then((cursos) => {
         res.json(cursos);
@@ -15,7 +20,7 @@ ruta.get('/', verificarToken, (req, res)=>{
 });
 
 ruta.post('/', verificarToken, (req,res)=>{
-    let resultado = crearCurso(req.body);
+    let resultado = crearCurso(req);
 
     resultado.then(curso =>{
         res.json({
@@ -29,12 +34,12 @@ ruta.post('/', verificarToken, (req,res)=>{
     });
 });
 
-async function crearCurso(body){
+async function crearCurso(req){
     let curso = new Curso({
-        titulo: body.titulo,
-        descripcion: body.descripcion,
-
-    });
+        titulo: req.body.titulo,
+        autor: req.usuario._id,
+        descripcion: req.body.descripcion
+});
     return await curso.save();
 }
 

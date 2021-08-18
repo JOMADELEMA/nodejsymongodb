@@ -22,9 +22,9 @@ ruta.post('/', (req, res)=> {
 
             console.log(process.env.SEED);
             console.log(process.env.expiration);
-            const jwToken = jwt.sign({_id: datos._id, 
+            const jwToken = jwt.sign({usuario: {_id: datos._id, 
                 nombre: datos.nombre, 
-                email: datos.email},
+                email: datos.email}},
                 process.env.SEED, 
                 {expiresIn: process.env.expiration}
                 );
