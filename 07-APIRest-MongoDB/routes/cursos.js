@@ -89,7 +89,7 @@ async function desactivarCurso(id) {
   }
 
   async function listarCursosActivos() {
-    let cursos = await Curso.find({ estado: true });
+    let cursos = await Curso.find({ publicado: true });
     return cursos;
   }
 
