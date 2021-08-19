@@ -11,6 +11,9 @@ mongoose.connect(process.env.HOST,  {useUnifiedTopology: true, useNewUrlParser: 
     .then(()=> console.log("conectado a MongoDB"))
     .catch(err => console.log("no se pudo conectar con MongoDB..."))
 
+    mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

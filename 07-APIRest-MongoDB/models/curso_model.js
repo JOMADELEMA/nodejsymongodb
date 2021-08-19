@@ -1,8 +1,7 @@
 const { number } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+
 
 const cursoSchema = mongoose.Schema({
     titulo: {

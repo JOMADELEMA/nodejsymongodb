@@ -91,7 +91,9 @@ async function desactivarCurso(id) {
   }
 
   async function listarCursosActivos() {
-    let cursos = await Curso.find({ publicado: true });
+    let cursos = await Curso
+    .find({ estado: true })
+    .populate('autor', 'nombre -_id'); //con esto muestra los datos de la relacion 
     return cursos;
   }
 

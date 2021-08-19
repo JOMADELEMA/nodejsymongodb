@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+
 
 const usuarioSchema = mongoose.Schema({
     email: {
