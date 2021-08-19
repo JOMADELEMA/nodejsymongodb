@@ -19,6 +19,8 @@ ruta.get('/', verificarToken, (req, res)=>{
     })
 });
 
+
+
 ruta.post('/', verificarToken, (req,res)=>{
     let resultado = crearCurso(req);
 
